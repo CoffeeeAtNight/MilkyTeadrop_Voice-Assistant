@@ -44,6 +44,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
     println!("Started TCP listener on port 7878");
 
+    println!("This is a test for VIM!");
     let listener = tokio::net::TcpListener::from_std(listener).unwrap();
 
     loop {

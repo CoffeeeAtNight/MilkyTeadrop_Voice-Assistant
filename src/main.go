@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"net"
+	"os"
 )
 
 var logger = log.Default()
@@ -25,9 +27,14 @@ func handleClient(conn net.Conn) {
 }
 
 func sendTcpPackage(conn net.Conn) {
-	data := []byte("What is an API?")
-
-	_, err := conn.Write(data)
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter question: ")
+	text, err := reader.ReadString('\n')
+	data := []byte(text)
+	if err != nil {
+		panic(err)
+	}
+	_, err = conn.Write(data)
 
 	if err != nil {
 		logger.Println("Error occurred trying to send TCP package")

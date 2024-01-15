@@ -40,6 +40,8 @@ func sendTcpPackage(conn net.Conn) {
 		logger.Println("Error occurred trying to send TCP package")
 		return
 	}
+
+	handleClient(conn)
 }
 
 func main() {

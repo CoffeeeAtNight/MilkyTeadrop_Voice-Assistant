@@ -40,7 +40,7 @@ fn create_full_response_string(target_jsonarray: &Vec<Value>) -> String {
         }   
     }
 
-    full_response_string
+    full_response_string.trim().to_string()
 }
 
 fn propagate_response_jsonarray(llm_response_str: String, jsonarray_responses: &mut Vec<String>) -> Result<(), Box<dyn Error>> {
@@ -50,12 +50,15 @@ fn propagate_response_jsonarray(llm_response_str: String, jsonarray_responses: &
         return Err("No closing JSON brace found".into());
     }
 
+    let mut i = 0;
+
     for (index, _) in found_occurrences_closing_json {
-        let substring = llm_response_str[..=index].to_string();
-        println!("SUBSTR BEFORE REPLACE: {}", substring);
-        let formated_substring = substring.replace("\\", "");
-        println!("SUBSTR AFTER REPLACE: {}", formated_substring); 
-        jsonarray_responses.push(formated_substring);
+        let substring = llm_response_str[i..=index].to_string();
+
+        let formatted_substring = substring.replace("\\n\\n", "").replace("\\", "");
+        jsonarray_responses.push(formatted_substring);
+
+        i = index + 1;
     }
 
     Ok(())

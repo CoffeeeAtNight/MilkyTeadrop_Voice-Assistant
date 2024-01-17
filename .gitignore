@@ -1,1 +1,3 @@
 target
+models/audio-processing/__pycache__
+models/audio-processing/.venv

@@ -17,9 +17,9 @@ def api_tts():
             return handle_bad_request()
 
         print("Message to transcribe is: ", message_to_transcribe)
-        data = use_tts(message_to_transcribe=message_to_transcribe)
+        base64 = use_tts(message_to_transcribe=message_to_transcribe)
 
-        return jsonify({"status": "ok", "data": data})
+        return jsonify({"status": "ok", "base64": base64})
     else:
         return handle_bad_request()
 

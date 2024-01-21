@@ -1,3 +1,4 @@
+import base64
 from flask import Flask, request, jsonify
 from tts_model import use_tts
 
@@ -17,9 +18,11 @@ def api_tts():
             return handle_bad_request()
 
         print("Message to transcribe is: ", message_to_transcribe)
-        base64 = use_tts(message_to_transcribe=message_to_transcribe)
-
-        return jsonify({"status": "ok", "base64": base64})
+        use_tts(message_to_transcribe=message_to_transcribe)
+        with open("./../data/output.mp3", "rb") as file:
+            encoded_string = base64.b64encode(file.read()).decode()
+            
+        return encoded_string
     else:
         return handle_bad_request()
 

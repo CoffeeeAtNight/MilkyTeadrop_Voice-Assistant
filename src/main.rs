@@ -105,7 +105,7 @@ fn propagate_response_jsonarray(llm_response_str: String, jsonarray_responses: &
 // Async function to send the received question to the LLM
 async fn send_received_question_to_llm(received_string: &str) -> Result<String, reqwest::Error> {
     let mut req_body = HashMap::new();
-    req_body.insert("model", "llama2");
+    req_body.insert("model", "llama3:8b");
     req_body.insert("prompt", received_string);
 
     let client = Client::new();
@@ -125,7 +125,6 @@ async fn send_received_question_to_llm(received_string: &str) -> Result<String, 
 async fn handle_connection(mut stream: TcpStream) -> Result<(), Box<dyn Error>> {
     let mut buffer = vec![0; 1024];
     let mut jsonarray_responses: Vec<String> = Vec::new();
-
 
     let buf_len = stream.read(&mut buffer).await.unwrap();
     let sliced_buf = &buffer[..buf_len];

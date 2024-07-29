@@ -1,3 +1,4 @@
+use std::io::Bytes;
 use std::slice::SliceIndex;
 use std::{collections::HashMap, vec};
 use std::error::Error;
@@ -147,13 +148,12 @@ async fn handle_connection(mut stream: TcpStream) -> Result<(), Box<dyn Error>> 
     let base64_res_str = convert_response_to_mp3_base64(full_res_string.as_str())
         .await.unwrap_or(String::new());
 
-    print!("Base64 Result: {}", base64_res_str);
+    //print!("Base64 Result: {}", base64_res_str);
 
     let byte_arr = base64_to_bytes(base64_res_str.as_str());
     let byte_slice = byte_arr.as_slice();
 
     send_data(stream.into_std().unwrap(), &byte_slice, "binary")?;
-
     Ok(())
 }
 
